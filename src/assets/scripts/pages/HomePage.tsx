@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLazyGetUserReposQuery, useSearchUsersQuery } from '../store/github/github.api'
 import { useDebounce } from '../hooks/useDebounce';
 import { RepoCard } from '../components/RepoCard';
+import { Loader } from '../components/Loader';
 
 export function HomePage() {
   const [search, setSearch] = useState('')
@@ -35,7 +36,7 @@ export function HomePage() {
           onChange={e => setSearch(e.target.value)}
         />
         {isDropdownVisible && <ul className="list-none absolute top-[45px] left-0 right-0 max-h-[200px] overflow-y-scroll shadow-md bg-white">
-          {isLoading && <p className="text-center">Loading...</p>}
+          {isLoading && <Loader size={8} wrapcClasses='h-12' />}
           {data?.map(user => (
             <li
               key={user.id}
@@ -44,9 +45,9 @@ export function HomePage() {
             >{user.login}</li>
           ))}
         </ul>}
+        {isFetching && <Loader size={10} wrapcClasses='mt-5' />}
+        {!isFetching && repos?.map(repo => <RepoCard repo={repo} key={repo.id} />)}
         <div>
-          {isFetching && <p className="text-center">Repos are loading...</p>}
-          {!isFetching && repos?.map(repo => <RepoCard repo={repo} key={repo.id} />)}
         </div>
       </div>
     </div>
