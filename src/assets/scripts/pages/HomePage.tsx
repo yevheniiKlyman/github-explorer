@@ -12,16 +12,16 @@ export function HomePage() {
     refetchOnFocus: true
   })
 
-  const [fetchRepos, { isLoading: areReposLoading, data: repos }] = useLazyGetUserReposQuery()
-
-  useEffect(() => {
-    setIsDropdownVisible(debounced.length > 3 && !!data?.length)
-  }, [debounced, data])
+  const [fetchRepos, { isFetching, data: repos }] = useLazyGetUserReposQuery()
 
   const clickHandler = (username: string) => {
     fetchRepos(username)
     setIsDropdownVisible(false)
   }
+
+  useEffect(() => {
+    setIsDropdownVisible(debounced.length > 3 && !!data?.length)
+  }, [debounced, data])
 
   return (
     <div className="container flex flex-col items-center mt-10 px-5 mx-auto w-screen">
@@ -29,7 +29,7 @@ export function HomePage() {
       <div className="relative w-full sm:w-[560px]">
         <input
           type="text"
-          className="border py-2 px-4 w-full h-[45px] mb-2"
+          className="border border-slate-300 py-2 px-4 w-full h-[45px] mb-2"
           placeholder="Search for GitHub username..."
           value={search}
           onChange={e => setSearch(e.target.value)}
@@ -45,8 +45,8 @@ export function HomePage() {
           ))}
         </ul>}
         <div>
-          {areReposLoading && <p className="text-center">Repos are loading...</p>}
-          {repos?.map(repo => <RepoCard repo={repo} key={repo.id} />)}
+          {isFetching && <p className="text-center">Repos are loading...</p>}
+          {!isFetching && repos?.map(repo => <RepoCard repo={repo} key={repo.id} />)}
         </div>
       </div>
     </div>

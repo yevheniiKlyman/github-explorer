@@ -101,3 +101,5 @@ export interface IOwner {
   user_view_type: string
   site_admin: boolean
 }
+
+export type FavoriteRepo = Pick<IRepo, 'full_name' | 'description' | 'html_url' | 'watchers' | 'forks'>
