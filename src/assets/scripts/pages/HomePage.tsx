@@ -43,7 +43,7 @@ export function HomePage() {
 
   return (
     <div className="container flex flex-col items-center mt-10 px-5 mx-auto w-screen">
-      {isError && <p className="text-center text-red-600">Something went wrong</p>}
+      {isError && <p className="absolute top-[57px] text-center text-red-600">Something went wrong...</p>}
       <div className="relative w-full sm:w-[560px]">
         <input
           type="text"
